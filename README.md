@@ -22,3 +22,11 @@ AirBnB utilizes the following classes:
 | **PUBLIC INSTANCE METHODS** | `save`<br>`to_dict` | `all`<br>`new`<br>`save`<br>`reload` | "" | "" | "" | "" | "" | "" |
 | **PUBLIC INSTANCE METHODS** | | | `email`br`password`<br>`first_name`<br>`last_name`| `name` | `state_id`<br>`name` | `name` | `city_id`<br>`user_id`br`name`<br>`description`<br>`number_bathrooms`<br>`price_by_night`<br>`latitude`<br>	`longitude`<br>`amenity_ids` | `place_id`<br>`user_id`<br>`text` |
 | **PRIVATE CLASS ATTRIBUTES** | | `file_path`<br>`objects` | | | | | | |
+
+## Storage :baggage_claim:
+
+The above classes are handled by the abstracted storage engine defined in the [FileStorage](./models/engine/file_storage.py) class.
+
+Every time the backend is initialized, AirBnB instantiates an instance of `FileStorage` called `Storage`. The `storage` object is loaded/re-loaded from any class instances stored in the JSON file `file.json`. As class instances are created, updated, or deleted, the `storage` object is used to register corresponding chnages in the `file.json`.
+
+## Console :computer:
