@@ -39,6 +39,7 @@
     justify-content: center;
 }
 
+
 .locations {
     border-right: 1px solid var(--borderColor);
 }
@@ -53,19 +54,22 @@
 }
 
 .popover {
-    z-index: -20;
+    z-index: -5;
     opacity: 0;
+    display: grid;
+    justify-content: center;
+    row-gap: .4rem;
     position:absolute;
     top: 100%;
     width: 100%;
     background-color: var(--dropdownBg);
     border: 1px solid var(--borderColor);
     border-radius: 4px;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .filters > div:hover .popover {
-    z-index: 1;
+    z-index: 5;
     opacity: 100;
-    transition: .5s ease-in-out;
+    transition: .5s ease opacity;
 }
