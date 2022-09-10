@@ -14,13 +14,6 @@
     border: none;
 }
 
-/* filters container */
-.container {
-    /* min width: 600px, max-width: 1000px */
-    width: clamp(600px, 90vw + .5rem, 1000px);
-    margin: 30px auto;
-}
-
 .container .filters {
     display: flex;
     align-items: center;
