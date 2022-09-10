@@ -6,15 +6,6 @@
     --dropdownBg: #FAFAFA;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    color: var(--globalColor);
-    font-size: var(--globalFontSize);
-    font-family: var(--globalFontFamily);
-    border: none;
-}
-
 .container .filters {
     display: flex;
     align-items: center;
