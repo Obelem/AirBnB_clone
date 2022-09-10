@@ -2,11 +2,6 @@
     --borderColor: #CCCCCC;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-}
-
 header {
     height: 70px;
     width: 100%;
