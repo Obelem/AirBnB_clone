@@ -58,8 +58,8 @@
     opacity: 0;
     display: grid;
     justify-content: center;
-    row-gap: .4rem;
-    position:absolute;
+    row-gap: .5rem;
+    position: absolute;
     top: 100%;
     width: 100%;
     background-color: var(--dropdownBg);
@@ -72,4 +72,11 @@
     z-index: 5;
     opacity: 100;
     transition: .5s ease opacity;
+}
+
+.popover > h2 {
+    font-size: 16px;
+    display: flex;
+    justify-content: left;
+    width: fit-content;
 }
