@@ -100,7 +100,13 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, cls):
-        ''' implements the create command '''
+        '''
+        Usage: create
+        - creates a new instance of class
+        - saves it in the JSON file
+        - prints the id
+        - Usage: create <class name>
+        '''
         if err_manager(cls, 1) == -1:
             return
         obj = eval(cls)()
