@@ -204,7 +204,7 @@ class HBNBCommand(cmd.Cmd):
                     [obj for obj in objects if type(obj).__name__ == argv[0]]
                 [print(att, end=', ' if att != attrs[-1] else '\n')
                     for att in attrs]
-                return True
+                return
 
             if command == 'count':
                 count = 0
@@ -212,7 +212,7 @@ class HBNBCommand(cmd.Cmd):
                     if type(obj).__name__ == argv[0]:
                         count += 1
                 print(count)
-                return True
+                return
 
         cls_name = argv[0]
         param = re.search(r"\((.*?)\)", argv[1])
