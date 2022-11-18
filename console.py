@@ -93,11 +93,22 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def do_quit(self, line):
-        '''implements quit command '''
+        '''
+        Description:
+        - quits command interpreter when quit is inputed
+        -> Usage: quit
+        '''
         return True
 
     def do_EOF(self, line):
-        ''' handles the EOF marker '''
+        '''
+            Description:
+            - quits command interpreter on
+              EOF marker (if no text in cmd line)
+            - performs forward delete if in between two
+              characters or line beginning
+            -> Usage: Ctrl + D
+        '''
         print("")
         return True
 
