@@ -1,91 +1,32 @@
 #!/usr/bin/python3
-import inspect
-import io
-import sys
-import cmd
-import shutil
+from models.place import Place
 
-"""
- Cleanup file storage
-"""
-import os
-file_path = "file.json"
-if not os.path.exists(file_path):
-    try:
-        from models.engine.file_storage import FileStorage
-        file_path = FileStorage._FileStorage__file_path
-    except:
-        pass
-if os.path.exists(file_path):
-    os.remove(file_path)
+print(type(Place.city_id) is str)
+print(Place.city_id == "")
 
+print(type(Place.user_id) is str)
+print(Place.user_id == "")
 
-"""
- Backup console file
-"""
-if os.path.exists("tmp_console_main.py"):
-    shutil.copy("tmp_console_main.py", "console.py")
-shutil.copy("console.py", "tmp_console_main.py")
+print(type(Place.name) is str)
+print(Place.name == "")
 
-"""
- Updating console to remove "__main__"
-"""
-with open("tmp_console_main.py", "r") as file_i:
-    console_lines = file_i.readlines()
-    with open("console.py", "w") as file_o:
-        in_main = False
-        for line in console_lines:
-            if "__main__" in line:
-                in_main = True
-            elif in_main:
-                if "cmdloop" not in line:
-                    file_o.write(line.lstrip("    "))
-            else:
-                file_o.write(line)
+print(type(Place.description) is str)
+print(Place.description == "")
 
-import console
+print(type(Place.number_rooms) is int)
+print(Place.number_rooms == 0)
 
-"""
- Create console
-"""
-console_obj = "HBNBCommand"
-for name, obj in inspect.getmembers(console):
-    if inspect.isclass(obj) and issubclass(obj, cmd.Cmd):
-        console_obj = obj
+print(type(Place.number_bathrooms) is int)
+print(Place.number_bathrooms == 0)
 
-my_console = console_obj(stdout=io.StringIO(), stdin=io.StringIO())
-my_console.use_rawinput = False
+print(type(Place.max_guest) is int)
+print(Place.max_guest == 0)
 
-"""
- Exec command
-"""
-def exec_command(my_console, the_command, last_lines = 1):
-    my_console.stdout = io.StringIO()
-    real_stdout = sys.stdout
-    sys.stdout = my_console.stdout
-    the_command = my_console.precmd(the_command)
-    my_console.onecmd(the_command)
-    sys.stdout = real_stdout
-    lines = my_console.stdout.getvalue().split("\n")
-    return "\n".join(lines[(-1*(last_lines+1)):-1])
+print(type(Place.price_by_night) is int)
+print(Place.price_by_night == 0)
 
-"""
- Tests
-"""
-result = exec_command(my_console, "create BaseModel")
-if result is None or result == "":
-    print("FAIL: No ID retrieved")
+print(type(Place.latitude) is float)
+print(Place.latitude == 0)
 
-model_id = result
-
-result = exec_command(my_console, "update BaseModel {} test_name".format(model_id))
-if result is None or result == "":
-    print("FAIL: no output")
-
-search_str = "** value missing **"
-if result != search_str:
-    print("FAIL: wrong message: \"{}\" instead of \"{}\"".format(result, search_str))
-
-print("OK", end="")
-
-shutil.copy("tmp_console_main.py", "console.py")
+print(type(Place.longitude) is float)
+print(Place.longitude == 0)
