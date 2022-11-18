@@ -52,9 +52,9 @@ def err_manager(line, argc):
         return -1
 
     cls_name, id = argv[0], argv[1]
-    objects = storage.all().values()
+    keys = storage.all().keys()
 
-    if id not in [obj.id for obj in objects]:
+    if f'{cls_name}.{id}' not in keys:
         print("** no instance found **")
         return -1
 
@@ -63,6 +63,7 @@ def err_manager(line, argc):
         return -1
 
     if len(argv) == 3 and argc == 4:
+        print(argv)
         print("** value missing **")
         return -1
     return argv
@@ -236,5 +237,3 @@ class HBNBCommand(cmd.Cmd):
                 eval('self.do_' + method)(line)
 
 
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
