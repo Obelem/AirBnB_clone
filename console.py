@@ -92,6 +92,52 @@ class HBNBCommand(cmd.Cmd):
         'State', 'City', 'Amenity', 'Review'
     }
 
+    def default(self, line):
+        ''' implements the default commands  '''
+        objects = storage.all().values()
+        argv = line.split('.', 1)
+        if len(argv) != 2:
+            return
+        if argv[0] in HBNBCommand.classes and argv[1].endswith('()'):
+            command = argv[1][:-2]
+
+            if command == 'all':
+                attrs = \
+                    [obj for obj in objects if type(obj).__name__ == argv[0]]
+                [print(att, end=', ' if att != attrs[-1] else '\n')
+                    for att in attrs]
+                return
+
+            if command == 'count':
+                count = 0
+                for obj in objects:
+                    if type(obj).__name__ == argv[0]:
+                        count += 1
+                print(count)
+                return
+
+        cls_name = argv[0]
+        param = re.search(r"\((.*?)\)", argv[1])
+        attributes = re.search(r"\{(.*?)\}", param[1])
+
+        if param:
+            method = argv[1][:param.span()[0]]
+            param_list = param[1].split(', ', 2)
+            id = param_list[0][1:-1]
+            if len(param_list) == 1:
+                line = ' '.join([cls_name, id])
+                eval('self.do_' + method)(line)
+            elif not attributes:
+                param_list[0] = id
+                param_list = ' '.join(param_list)
+                line = ' '.join([cls_name, param_list])
+                eval('self.do_' + method)(line)
+            else:
+                param_list = param[1].split(', ', 1)
+                attr_dict = param_list[1].replace("'", '"')
+                line = ' '.join([cls_name, id, attr_dict])
+                eval('self.do_' + method)(line)
+
     def do_quit(self, arg):
         '''implements quit command '''
         return True
@@ -188,52 +234,6 @@ class HBNBCommand(cmd.Cmd):
             value = type_checker(str(value))
             obj.__dict__[attr] = value
             storage.save()
-
-    def default(self, line):
-        ''' implements the default commands  '''
-        objects = storage.all().values()
-        argv = line.split('.', 1)
-        if len(argv) != 2:
-            return
-        if argv[0] in HBNBCommand.classes and argv[1].endswith('()'):
-            command = argv[1][:-2]
-
-            if command == 'all':
-                attrs = \
-                    [obj for obj in objects if type(obj).__name__ == argv[0]]
-                [print(att, end=', ' if att != attrs[-1] else '\n')
-                    for att in attrs]
-                return
-
-            if command == 'count':
-                count = 0
-                for obj in objects:
-                    if type(obj).__name__ == argv[0]:
-                        count += 1
-                print(count)
-                return
-
-        cls_name = argv[0]
-        param = re.search(r"\((.*?)\)", argv[1])
-        attributes = re.search(r"\{(.*?)\}", param[1])
-
-        if param:
-            method = argv[1][:param.span()[0]]
-            param_list = param[1].split(', ', 2)
-            id = param_list[0][1:-1]
-            if len(param_list) == 1:
-                line = ' '.join([cls_name, id])
-                eval('self.do_' + method)(line)
-            elif not attributes:
-                param_list[0] = id
-                param_list = ' '.join(param_list)
-                line = ' '.join([cls_name, param_list])
-                eval('self.do_' + method)(line)
-            else:
-                param_list = param[1].split(', ', 1)
-                attr_dict = param_list[1].replace("'", '"')
-                line = ' '.join([cls_name, id, attr_dict])
-                eval('self.do_' + method)(line)
 
 
 if __name__ == '__main__':
