@@ -99,6 +99,12 @@ class HBNBCommand(cmd.Cmd):
         ''' handles the EOF marker '''
         return True
 
+    def emptyline(self):
+        ''' Do nothing upon receiving an empty line.
+            or an empty line + space
+        '''
+        pass
+
     def do_create(self, cls):
         '''
         Usage: create
