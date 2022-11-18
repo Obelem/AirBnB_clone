@@ -235,6 +235,8 @@ class HBNBCommand(cmd.Cmd):
                 attr_dict = param_list[1].replace("'", '"')
                 line = ' '.join([cls_name, id, attr_dict])
                 eval('self.do_' + method)(line)
+        print(f"*** Unknown syntax: {line}")
+        return False
 
 
 if __name__ == '__main__':
