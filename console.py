@@ -11,77 +11,6 @@ from models.amenity import Amenity
 from models.review import Review
 from models import storage
 
-
-def parse(line):
-    ''' parses the line (string) from prompt  before execution'''
-    argv = line.split(' ')
-    if len(argv) > 4:
-        argv = argv[:4]
-    if len(argv) != 4:
-        return argv
-
-    # parses update command (remove quotes)
-    print(argv)
-    if argv[3][0] in ['"', '"']:
-        argv[3] = argv[3][1:]
-    if argv[3][-1] in ['"', '"']:
-        argv[3] = argv[3][:-1]
-    if argv[2][0] in ['"', "'"]:
-        argv[2] = argv[2][1:]
-    if argv[2][-1] in ['"', "'"]:
-        argv[2] = argv[2][:-1]
-
-    return argv
-
-
-def err_manager(line, argc):
-    ''' manages errors while parsing '''
-    if not line:
-        print("** class name missing **")
-        return -1
-    argv = parse(line)
-    if argv[0] not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return -1
-
-    if argc == 1:
-        return argv
-
-    if len(argv) < 2:
-        print("** instance id missing **")
-        return -1
-
-    cls_name, id = argv[0], argv[1]
-    keys = storage.all().keys()
-
-    if f'{cls_name}.{id}' not in keys:
-        print("** no instance found **")
-        return -1
-
-    if len(argv) == 2 and argc == 4:
-        print("** attribute name missing **")
-        return -1
-
-    if len(argv) == 3 and argc == 4:
-        print("** value missing **")
-        return -1
-    return argv
-
-
-def type_checker(value):
-    '''
-        typecasts value into adequate type before
-        updating instance attributes
-    '''
-    if value.isdigit():
-        return int(value)
-    try:
-        float(value)
-        return float(value)
-    except ValueError:
-        return value
-
-
 class HBNBCommand(cmd.Cmd):
     ''' Defines the HBNBCommand interpreter '''
 
@@ -102,12 +31,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         '''
-            Description:
-            - quits command interpreter on
-              EOF marker (if no text in cmd line)
-            - performs forward delete if in between two
-              characters or line beginning
-            -> Usage: Ctrl + D
+        Description:
+        - quits command interpreter on
+            EOF marker (if no text in cmd line)
+        - performs forward delete if in between two
+            characters or line beginning
+        -> Usage: Ctrl + D
         '''
         print("")
         return True
@@ -118,90 +47,7 @@ class HBNBCommand(cmd.Cmd):
         '''
         pass
 
-    def do_create(self, cls):
-        '''
-        Usage: create
-        - creates a new instance of class
-        - saves it in the JSON file
-        - prints the id
-        - Usage: create <class name>
-        '''
-        if err_manager(cls, 1) == -1:
-            return
-        obj = eval(cls)()
-        obj.save()
-        print(obj.id)
 
-    def do_show(self, line):
-        ''' implements the show command '''
-        argv = err_manager(line, 2)
-        if argv == -1:
-            return
-
-        cls_name, id = argv[0], argv[1]
-        objects = storage.all().values()
-        for obj in objects:
-            print(obj) if obj.id == id else ""
-
-    def do_destroy(self, line):
-        ''' implements the destroy command '''
-        argv = err_manager(line, 3)
-        if argv == -1:
-            return
-
-        cls_name, id = argv[0], argv[1]
-        del storage.all()[f'{cls_name}.{id}']
-        storage.save()
-
-    def do_all(self, cls_name):
-        ''' implements the create command '''
-        objects = storage.all().values()
-        if not cls_name:
-            # this is for, <all> without class name
-            [print(obj) for obj in objects]
-            return
-        argv = err_manager(cls_name, 1)
-        if argv == -1:
-            return
-        for obj in objects:
-            print(obj) if obj.__class__.__name__ == cls_name else ""
-
-    def do_update(self, line):
-        '''
-            implements the update command
-            Usage
-            - update <class name> <id> <attr name> <attr value>
-            - <class name>.update(<id>, <attribute name>, <attribute value>)
-            - <class name>.update(<id>, <dictionary representation>)
-        '''
-        attributes = re.search(r"\{(.*?)\}", line)
-        if not attributes:
-            argv = err_manager(line, 4)
-            if argv == -1:
-                return
-            cls_name, id, attr, value = argv[0], argv[1], argv[2], argv[3]
-            obj = storage.all()[f'{cls_name}.{id}']
-
-            value = type_checker(str(value))
-            obj.__dict__[attr] = value
-            storage.save()
-            return
-
-        args = line.split(' ', 2)
-        cls_name, id, attr_dict = args[0], args[1], args[2]
-        attr_dict = json.loads(attr_dict)
-        for key, value in attr_dict.items():
-            test_line = ' '.join([cls_name, id, key, str(value)])
-            argv = err_manager(test_line, 4)
-            if argv == -1:
-                return
-            cls_name, id, attr, value = argv[0], argv[1], argv[2], argv[3]
-            obj = storage.all()[f'{cls_name}.{id}']
-            value = type_checker(str(value))
-            obj.__dict__[attr] = value
-            storage.save()
-
-    def default(self, line):
         ''' implements the default commands  '''
         objects = storage.all().values()
         argv = line.split('.', 1)
