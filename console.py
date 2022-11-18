@@ -226,7 +226,6 @@ class HBNBCommand(cmd.Cmd):
                 line = ' '.join([cls_name, id])
                 eval('self.do_' + method)(line)
             elif not attributes:
-                # param_list[0] = id
                 param_list = ' '.join(param_list)
                 line = ' '.join([cls_name, param_list])
                 eval('self.do_' + method)(line)
@@ -235,8 +234,6 @@ class HBNBCommand(cmd.Cmd):
                 attr_dict = param_list[1].replace("'", '"')
                 line = ' '.join([cls_name, id, attr_dict])
                 eval('self.do_' + method)(line)
-        print(f"*** Unknown syntax: {line}")
-        return False
 
 
 if __name__ == '__main__':
