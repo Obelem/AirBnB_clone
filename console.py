@@ -11,10 +11,6 @@ import re
 import cmd
 import json
 
-classes = {
-    'BaseModel', 'User', 'Place', 'State', 'City', 'Amenity', 'Review'
-}
-
 
 def parse(line):
     ''' parses the line (string) from prompt  before execution'''
@@ -44,7 +40,7 @@ def err_manager(line, argc):
         print("** class name missing **")
         return -1
     argv = parse(line)
-    if argv[0] not in classes:
+    if argv[0] not in HBNBCommand.classes:
         print("** class doesn't exist **")
         return -1
 
@@ -90,6 +86,11 @@ class HBNBCommand(cmd.Cmd):
     ''' Defines the HBNBCommand interpreter '''
 
     prompt = '(hbnb) '
+
+    classes = {
+        'BaseModel', 'User', 'Place',
+        'State', 'City', 'Amenity', 'Review'
+    }
 
     def do_quit(self, arg):
         ''' implements quit command '''
@@ -194,7 +195,7 @@ class HBNBCommand(cmd.Cmd):
         argv = line.split('.', 1)
         if len(argv) != 2:
             return
-        if argv[0] in classes and argv[1].endswith('()'):
+        if argv[0] in HBNBCommand.classes and argv[1].endswith('()'):
             command = argv[1][:-2]
 
             if command == 'all':
