@@ -63,7 +63,6 @@ def err_manager(line, argc):
         return -1
 
     if len(argv) == 3 and argc == 4:
-        print(argv)
         print("** value missing **")
         return -1
     return argv
@@ -99,6 +98,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         ''' handles the EOF marker '''
+        print("")
         return True
 
     def emptyline(self):
@@ -237,3 +237,5 @@ class HBNBCommand(cmd.Cmd):
                 eval('self.do_' + method)(line)
 
 
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
