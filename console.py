@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import re
+import cmd
+import json
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
@@ -7,9 +10,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 from models import storage
-import re
-import cmd
-import json
 
 
 def parse(line):
@@ -236,5 +236,5 @@ class HBNBCommand(cmd.Cmd):
                 eval('self.do_' + method)(line)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
