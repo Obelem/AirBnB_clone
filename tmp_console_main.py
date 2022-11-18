@@ -63,7 +63,7 @@ def err_manager(line, argc):
         return -1
 
     if len(argv) == 3 and argc == 4:
-        print("** value missing **")
+        print("**value missing **")
         return -1
     return argv
 
