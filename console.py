@@ -109,7 +109,6 @@ class HBNBCommand(cmd.Cmd):
             characters or line beginning
         -> Usage: Ctrl + D
         '''
-        print("")
         return True
 
     def emptyline(self):
