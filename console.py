@@ -169,12 +169,13 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, line):
         '''
         Description:
-        Updates the instance attributes either through a key value pair
-        or a dictionary representation
+            Updates the instance attributes either through a key value pair
+            or a dictionary representation
+
         Usage:
-        - update <class name> <id> <attr name> <attr value>
-        - <class name>.update(<id>, <attribute name>, <attribute value>)
-        - <class name>.update(<id>, <dictionary representation>)
+            - update <class name> <id> <attr name> <attr value>
+            - <class name>.update(<id>, <attribute name>, <attribute value>)
+            - <class name>.update(<id>, <dictionary representation>)
         '''
         attributes = re.search(r"\{(.*?)\}", line)
         if not attributes:
@@ -207,10 +208,17 @@ class HBNBCommand(cmd.Cmd):
         ''' implements the default commands  '''
         objects = storage.all().values()
         argv = line.split('.', 1)
-        if len(argv) != 2:
+
+        if len(argv) != 2 or argv[0] not in HBNBCommand.classes:
+            print('*** unknown syntax:', line)
             return
+
         if argv[0] in HBNBCommand.classes and argv[1].endswith('()'):
             command = argv[1][:-2]
+
+            if command not in ['all', 'count']:
+                print('*** unknown syntax:', line)
+                return
 
             if command == 'all':
                 attrs = \
